@@ -116,7 +116,7 @@ public class ReadSchemaTopic {
         return topics ;
     }
 
-    private KafkaAvroConsumer getConsumer(String cleindId) throws Exception {
+    private KafkaAvroConsumer getConsumer(String clientId) throws Exception {
         final Schema controlMessageSchema;
         //Properties kafkaProps = null;
         try {
@@ -135,7 +135,7 @@ public class ReadSchemaTopic {
             kafkaProps.put("key.deserializer", StringSerializer.class.getName());
             kafkaProps.put("value.deserializer", AvroDeserializer.class.getName());
             kafkaProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, OffsetResetStrategy.EARLIEST.toString().toLowerCase());
-            kafkaProps.put(ConsumerConfig.GROUP_ID_CONFIG, cleindId);
+            kafkaProps.put(ConsumerConfig.GROUP_ID_CONFIG, clientId);
             kafkaProps.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, "5048576");
             ConfigProperties.resolve(kafkaProps);
         }

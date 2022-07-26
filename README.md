@@ -97,6 +97,8 @@ oauth.token.endpoint.uri=https://{auth_endpoint_url}/auth/realms/pro-realm/proto
 oauth.client.id=client
 oauth.client.secret=client-secret
 oauth.username.claim=preferred_username
+cluster.id=abc-123
+identity.pool.id=pool-abcd
 ```
 
 ### Create NCDS Session Client

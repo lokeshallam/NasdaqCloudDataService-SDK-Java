@@ -15,6 +15,10 @@ public class AuthenticationConfigLoader {
     public static String OAUTH_CLIENT_SECRET="oauth.client.secret";
     public static String OAUTH_USERNAME_CLAIM="oauth.username.claim";
 
+    public static String EXT_LOGICAL_CLUSTER_ID = "cluster.id";
+
+    public static String EXT_IDENTITY_POOL_ID = "identity.pool.id";
+
     public static String getClientID(){
         String clientID;
         try {
@@ -71,14 +75,33 @@ public class AuthenticationConfigLoader {
         if (cfg.getProperty(OAUTH_USERNAME_CLAIM) == null) {
             throw new Exception("Authentication Setting :" + OAUTH_USERNAME_CLAIM  + " Missing" );
         }
+        if (cfg.getProperty(EXT_LOGICAL_CLUSTER_ID) == null) {
+            throw new Exception("Authentication Setting :" + EXT_LOGICAL_CLUSTER_ID  + " Missing" );
+        }
+        if (cfg.getProperty(EXT_IDENTITY_POOL_ID) == null) {
+            throw new Exception("Authentication Setting :" + EXT_IDENTITY_POOL_ID  + " Missing" );
+        }
 
         return true;
     }
 
-    private static Properties addNasdaqSpecificAuthProperties(Properties p){
-        if(!IsItJunit.isJUnitTest()) {
-            p.setProperty("oauth.username.claim","preferred_username");
-        }
-        return p;
+  private static Properties addNasdaqSpecificAuthProperties(Properties p) {
+    if (!IsItJunit.isJUnitTest()) {
+      p.setProperty("oauth.username.claim", "preferred_username");
+      String jaasConfig =
+          "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required "
+              + "clientId='"
+              + p.getProperty(OAUTH_CLIENT_ID)
+              + "' clientSecret='"
+              + p.getProperty(OAUTH_CLIENT_SECRET)
+              + "' extension_logicalCluster='"
+              + p.getProperty(EXT_LOGICAL_CLUSTER_ID)
+              + "' extension_identityPoolId='"
+              + p.getProperty(EXT_IDENTITY_POOL_ID)
+              + "';";
+      p.setProperty("sasl.jaas.config", jaasConfig);
+      p.setProperty("sasl.oauthbearer.token.endpoint.url",p.getProperty(OAUTH_TOKEN_ENDPOINT_URI));
     }
+    return p;
+  }
 }

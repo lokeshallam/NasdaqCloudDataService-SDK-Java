@@ -34,12 +34,7 @@
             <version>20190722</version>
         </dependency>
 
-        <!-- Kafka -auth -->
-        <dependency>
-            <groupId>io.strimzi</groupId>
-            <artifactId>kafka-oauth-common</artifactId>
-            <version>${strimzi.oauth.version}</version>
-        </dependency>
+
 
         <!--  Testing -->
 

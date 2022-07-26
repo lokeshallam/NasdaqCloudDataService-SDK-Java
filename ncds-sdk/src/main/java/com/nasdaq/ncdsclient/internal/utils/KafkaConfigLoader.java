@@ -28,17 +28,16 @@ public class KafkaConfigLoader {
         catch (Exception e) {
             throw e;
         }
-        nasdaqSepecificConfig(cfg);
+        nasdaqSpecificConfig(cfg);
         return cfg;
     }
 
-    private static Properties nasdaqSepecificConfig(Properties p) throws KafkaPropertiesException{
+    private static Properties nasdaqSpecificConfig(Properties p) throws KafkaPropertiesException{
         //Properties p = new Properties();
         if(!IsItJunit.isJUnitTest()) {
             p.setProperty("security.protocol", "SASL_SSL");
             p.setProperty("sasl.mechanism", "OAUTHBEARER");
-            p.setProperty("sasl.jaas.config", "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;");
-            p.setProperty("sasl.login.callback.handler.class", "io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler");
+            p.setProperty("sasl.login.callback.handler.class", "org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler");
         }
         return p;
     }
@@ -47,7 +46,7 @@ public class KafkaConfigLoader {
         if (p.getProperty(BOOTSTRAP_SERVERS) == null) {
             throw new Exception ("bootstrap.servers  Properties is not set in the Kafka Configuration ");
         }
-        nasdaqSepecificConfig(p);
+        nasdaqSpecificConfig(p);
         return p;
     }
  }

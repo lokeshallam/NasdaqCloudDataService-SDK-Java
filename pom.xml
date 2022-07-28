@@ -16,8 +16,7 @@
 
     <properties>
         <avro.version>1.8.2</avro.version>
-        <kafka.version>2.8.0</kafka.version>
-        <strimzi.oauth.version>0.8.1</strimzi.oauth.version>
+        <kafka.version>3.2.0</kafka.version>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
@@ -37,11 +36,10 @@
             <version>${kafka.version}</version>
         </dependency>
 
-        <!--Kafka Auth Dependency-->
         <dependency>
-            <groupId>io.strimzi</groupId>
-            <artifactId>kafka-oauth-client</artifactId>
-            <version>${strimzi.oauth.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
         </dependency>
 
         <dependency>

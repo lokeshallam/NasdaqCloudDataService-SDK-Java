@@ -7,7 +7,6 @@ import com.nasdaq.ncdsclient.internal.utils.AuthenticationConfigLoader;
 import com.nasdaq.ncdsclient.internal.utils.IsItJunit;
 import com.nasdaq.ncdsclient.internal.utils.KafkaConfigLoader;
 import com.nasdaq.ncdsclient.news.NewsUtil;
-import io.strimzi.kafka.oauth.common.ConfigProperties;
 import org.apache.avro.Schema;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -58,6 +57,7 @@ public class NasdaqKafkaAvroConsumer {
             }
             else {
                 securityProps = securityCfg;
+                kafkaCfg.putAll(securityCfg);
 
             }
         }
@@ -144,9 +144,7 @@ public class NasdaqKafkaAvroConsumer {
 
     public  KafkaAvroConsumer getConsumer(Schema avroSchema, String streamName) throws Exception {
         try {
-            if(!IsItJunit.isJUnitTest()) {
-                ConfigProperties.resolveAndExportToSystemProperties(securityProps);
-            }
+
             //Properties kafkaProps = KafkaConfigLoader.loadConfig();
 
             kafkaProps.put("key.deserializer", StringDeserializer.class.getName());
@@ -157,7 +155,6 @@ public class NasdaqKafkaAvroConsumer {
             if(!kafkaProps.containsKey(ConsumerConfig.GROUP_ID_CONFIG)) {
                 kafkaProps.put(ConsumerConfig.GROUP_ID_CONFIG, this.clientID + "_" + streamName + "_" + getDate());
             }
-            ConfigProperties.resolve(kafkaProps);
             return new KafkaAvroConsumer(kafkaProps, avroSchema);
         }
         catch (Exception e) {

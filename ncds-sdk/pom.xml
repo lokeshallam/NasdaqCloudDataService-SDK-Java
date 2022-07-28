@@ -19,7 +19,6 @@
         <curatorTestVersion>2.12.0</curatorTestVersion>
         <slf4jVersion>1.7.30</slf4jVersion>
         <surefire.version>2.22.2</surefire.version>
-        <strimzi.oauth.version>0.8.1</strimzi.oauth.version>
     </properties>
 
     <name>SDK</name>
@@ -34,9 +33,6 @@
             <version>20190722</version>
         </dependency>
 
-
-
-        <!--  Testing -->
 
             <!-- Kafka -->
             <dependency>
@@ -93,6 +89,7 @@
             <version>${curatorTestVersion}</version>
             <scope>test</scope>
         </dependency>
+
 
         <!-- Logging in tests -->
         <dependency>
